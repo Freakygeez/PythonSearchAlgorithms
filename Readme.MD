@@ -9,7 +9,7 @@ Contained within this repo is the code for basic:
 * A* Search
 * Bounded Cost Search
 
-More ML ones comming soon...
+More ML ones coming soon...
 
 ## Algorithm visualisation 
 This graph will be used in all future algorithms (and existing will be updated to use this too)
