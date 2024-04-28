@@ -56,3 +56,9 @@ Iasi -- 87 --> Neamt
 
 
 ```
+
+## Breadth First Search Output:
+Arad  -->  Zerind  -->  Sibiu  -->  Timisoara  -->  Ordea  -->  Fagaras  -->  0.23
+
+## Depth First Search Output:
+Arad  -->  Timisoara  -->  Lugoj  -->  Mehadia  -->  Drobeta  -->  Craiova  -->  Rimmnicu Vicea  --> ERROR due to circular path
