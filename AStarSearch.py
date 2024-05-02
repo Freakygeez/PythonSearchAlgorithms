@@ -2,89 +2,125 @@ from time import perf_counter
 
 
 searchTree = {
-    'Arad': ['Zerind','Sibiu', 'Timisoara'],
-    'Zerind': ['Ordea'],
-    'Ordea': ['Sibiu'],
-    'Timisoara': ['Lugoj'],
-    'Lugoj': ['Mehadia'],
-    'Mehadia': ['Drobeta'],
-    'Drobeta': ['Craiova'],
-    'Craiova': ['Rimmnicu Vicea'],
-    'Sibiu': ['Fagaras','Rimnicu Vicea'],
-    'Fagaras': ['Bucharest'],
-    'Rimnicu Vicea': ['Piesti', 'Craiova'],
-    'Piesti': ['Craiova', 'Bucharest'],
-    'Bucharest': ['Giurgiu', 'Urziceni'],
-    'Giurgiu': [],
-    'Urziceni': ['Hirsova', 'Vaslui'],
-    'Hirsova': ['Eforie'],
-    'Eforie': [],
-    'Vaslui': ['Iasi'],
-    'Iasi': ['Neamt'],
-    'Neamt': []
-}
-#Path cost is seperated out into its own dictionary as it becomes much easier to reference
-pathCost = {
-    'Arad': [75, 140, 118],
-    'Zerind': [71],
-    'Ordea': [151],
-    'Timisoara': [111],
-    'Lugoj': [70],
-    'Mehadia': [75],
-    'Drobeta': [120],
-    'Craiova': [146],
-    'Sibiu': [99, 80],
-    'Fagaras': [211],
-    'Rimnicu Vicea': [97, 146],
-    'Piesti': [138, 101],
-    'Bucharest': [90, 142],
-    'Giurgiu': [],
-    'Urziceni': [98, 142],
-    'Hirsova': [86],
-    'Eforie': [],
-    'Vaslui': [92],
-    'Iasi': [87],
-    'Neamt': []
+    'Arad': {
+        'Zerind': 75,
+        'Sibiu': 140, 
+        'Timisoara': 118},
+    
+    'Zerind': {
+        'Ordea': 71},
+
+    'Ordea': {
+        'Sibiu': 151
+              },
+
+    'Timisoara': {
+        'Lugoj': 111
+        },
+
+    'Lugoj': {
+        'Mehadia': 70
+        },
+
+    'Mehadia': {
+        'Drobeta': 75
+                },
+
+    'Drobeta': {
+        'Craiova': 120
+        },
+    'Craiova': {
+        'Rimmnicu Vicea': 146 
+        },
+
+    'Sibiu': {
+        'Fagaras': 99,
+        'Rimnicu Vicea': 80},
+
+    'Fagaras': {
+        'Bucharest': 211},
+
+    'Rimnicu Vicea': {
+        'Piesti': 97, 
+        'Craiova': 146},
+
+    'Piesti': {
+        'Craiova': 138, 
+        'Bucharest': 101},
+
+    'Bucharest': {
+        'Giurgiu': 90, 
+        'Urziceni': 142},
+
+    'Giurgiu': {},
+
+    'Urziceni': {
+        'Hirsova': 98, 
+        'Vaslui': 142},
+
+    'Hirsova': {
+        'Eforie': 86},
+
+    'Eforie': {},
+
+    'Vaslui': {
+        'Iasi': 92},
+
+    'Iasi': {
+        'Neamt': 87},
+
+    'Neamt': {}
 }
 
 queue = []
-costQueue = []
+cost_queue = []
 
 
-#print(pathCost['Arad'][0])
-
-
-def A_Star_Search(tree, cost, start, destination):
+def A_Star_Search(tree, start, destination):
 
     total_path_cost = 0 
-    path = []
+    path = set()
 
     if start == destination:
         Exception ("Start is the the same as destination")
     elif start or destination not in tree:
         Exception ("start or destination does not exist in the searchTree")
     
+    queue.append(start)
+    print(queue)
+    path.add(start)
+
+    #Each node may have several nodes, with several distances, attached
+    #So, we append the initial here and then again in a general form later
+    for distance in searchTree[start]:
+        cost_queue.append(searchTree[start][distance])
+
     while queue:
         node = queue.pop(-1)
-        nodeCost = costQueue.pop(-1)
-
-        if item == destination:
-            return (path, total_path_cost)
+        cost = min(cost_queue)
+        cost_queue.remove(cost) #removes by value rather than ID, bit slower though
+        print (node,' --> ', end=" ")
         
-        for item in tree:
+        for item in tree[node]:
             item = node
-            if node not in path or cost[nodeCost][0] < costQueue[-1]:
+            path.add(item)
+            if item == destination:
+                return (path, total_path_cost)
+            for distance in tree[item]:
+                cost_queue.append(tree[item][distance])
+            
+            if node not in path:
                 path.append(item)
                 queue.append(item)
-                costQueue.append(item)
-                total_path_cost += cost[nodeCost[0]]
+                total_path_cost += cost
     
-    return Exception ("No path could be found")
+        return Exception ("No path could be found")
+    
+    return path
 
 
 
-print(A_Star_Search(searchTree,pathCost,'Arad','Bucharest'))
-
+print(A_Star_Search(searchTree,'Arad','Bucharest'))
 
 
 

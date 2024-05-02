@@ -24,7 +24,7 @@ A* search implements a cost function (i.e. distance) whilst avoiding the issue o
 
             FOR item IN Search(tree, node):
                 item <-- node
-                IF node NOT IN path OR node[cost] < reached[node][cost]:
+                IF node NOT IN path OR node[cost] < reached[node][cost]: #if the node is not in the path or if the node is cheaper, use that one
                 path[node] <-- item
                 queue.append(item) 
                 cost += node[cost]
